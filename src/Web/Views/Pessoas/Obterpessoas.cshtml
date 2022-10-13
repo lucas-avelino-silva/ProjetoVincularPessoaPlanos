@@ -1,0 +1,52 @@
+﻿@using Business.Model
+@model List<Pessoa>
+@{
+    ViewData["Title"] = "Lista de Pessoas";
+}
+<h1>@ViewData["Title"]</h1>
+<br />
+
+@if (ViewBag.result != null)
+{
+    <div id="result" class="alert alert-primary" role="alert">
+        <h2>@ViewBag.result</h2>
+    </div>
+}
+<br />
+
+<a class="btn btn-success" asp-action="CriarPessoa">Novo usuário</a>
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">CPF</th>
+            <th scope="col"></th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            int count = 1;
+            foreach (var pessoa in Model)
+            {
+                <tr>
+                    <td>@count</td>
+                    <td>@pessoa.Nome</td>
+                    <td>@pessoa.CPF</td>
+                    <td><a class="btn btn-warning" href=@Url.Action("CriarPessoa" , "Pessoas" , new { id=pessoa.Id })>Editar</a>
+                    <a class="btn btn-danger" href=@Url.Action("Deletar" , "Pessoas" , new { id=pessoa.Id })>Excluir</a>
+                        <a class="btn btn-success" href=@Url.Action("Index" , "Planos" , new { id=pessoa.Id })>Vincular</a>
+                    </td>
+                </tr>
+                count += 1;
+            }
+            
+        }
+
+
+    </tbody>
+</table>

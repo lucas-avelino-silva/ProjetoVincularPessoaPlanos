@@ -1,0 +1,72 @@
+﻿@using Business.Model
+@model PessoaViewModel
+@{
+    ViewData["Title"] = "Vincular Plano";
+}
+
+@if (ViewBag.result != null)
+{
+    <div id="result" class="alert alert-primary" role="alert">
+        <h2>@ViewBag.result</h2>
+    </div>
+}
+<br />
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+
+@using (Html.BeginForm("Vincular", "Planos", FormMethod.Post))
+{
+    <select asp-for="PlanoID" id="planos" class="form-select" aria-label="Default select example">
+        <option>Selecione um plano.</option>
+        @foreach (Plano plano in ViewBag.planos)
+        {
+            <option value="@plano.Id">@plano.Nome | @plano.Valor reais/mês.</option>
+        }
+    </select>
+    <input style="display:none"  asp-for="PessoaID" value="@Model.Id" />
+    <br />
+    <button type="submit" class="btn btn-success btn-lg btn-block">Vincular</button>
+}
+
+
+<br />
+<br />
+<br />
+
+<h1>Seus Planos</h1>
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Plano</th>
+            <th scope="col">Valor</th>
+            <th scope="col"></th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            int count = 1;
+            foreach (var pessoa in Model.Planos)
+            {
+                <tr>
+                    <td>@count</td>
+                    <td>@pessoa.Plano.Nome</td>
+                    <td>@pessoa.Plano.Valor</td>
+                    <td>
+                        <a class="btn btn-danger" href=@Url.Action("" , "" , new { id=pessoa.Id })>Cancelar plano</a>
+                    </td>
+                </tr>
+                count += 1;
+            }
+
+        }
+
+
+    </tbody>
+</table>
